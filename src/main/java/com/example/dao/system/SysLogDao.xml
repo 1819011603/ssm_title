@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.dao.system.SysLogDao">
+    <!--配置实体类属性和数据库表中列的对应关系-->
+    <resultMap id="BaseResultMap" type="com.example.domain.system.SysLog">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="ip" jdbcType="VARCHAR" property="ip"/>
+        <result column="time" jdbcType="VARCHAR" property="time"/>
+        <result column="method" jdbcType="VARCHAR" property="method"/>
+        <result column="action" jdbcType="VARCHAR" property="action"/>
+
+    </resultMap>
+
+    <!--配置查询的列名公共SQL语句-->
+    <sql id="Base_Column_List">
+        id, user_name,ip,time,method,action
+    </sql>
+
+    <!--配置查询所有，带条件-->
+    <select id="findAll"  resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from ss_sys_log
+    </select>
+
+    <!--配置根据ID查询-->
+    <select id="findById" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from ss_sys_log
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <select id="findByName" parameterType="java.lang.String" resultType="com.example.domain.system.SysLog">
+        select   <include refid="Base_Column_List"/> from ss_sys_log
+        where user_name = #{userName,jdbcType=VARCHAR}
+    </select>
+    <!--配置根据id删除-->
+    <delete id="delete" parameterType="java.lang.String">
+        delete from ss_sys_log  where id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+    <!--配置全字段插入，当某个字段没有值时，插入null-->
+    <insert id="save" parameterType="com.example.domain.system.SysLog">
+        insert into ss_sys_log (id, user_name, ip,time,method,action)
+        values (#{id,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR},#{time,jdbcType=VARCHAR},#{method,jdbcType=VARCHAR},#{action,jdbcType=VARCHAR})
+    </insert>
+
+    <!--配置全字段更新，当提供的数据为null时，数据库数据会被更新为null-->
+    <update id="update" parameterType="com.example.domain.system.SysLog">
+        update ss_sys_log
+        set user_name = #{userName,jdbcType=VARCHAR},
+        ip = #{ip,jdbcType=VARCHAR},
+        time = #{time,jdbcType=VARCHAR},
+        method = #{method,jdbcType=VARCHAR},
+        action = #{action,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+
+</mapper>

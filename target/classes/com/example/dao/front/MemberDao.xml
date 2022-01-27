@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.dao.front.MemberDao">
+    <!--配置实体类属性和数据库表中列的对应关系-->
+<!--    <resultMap id="BaseResultMap" type="com.example.domain.front.Member">-->
+<!--        <id column="id" jdbcType="VARCHAR" property="id"/>-->
+<!--        <result column="nick_name" jdbcType="VARCHAR" property="nickName"/>-->
+<!--        <result column="remark" jdbcType="VARCHAR" property="remark"/>-->
+<!--        <result column="state" jdbcType="VARCHAR" property="state"/>-->
+<!--        <result column="course_id" jdbcType="VARCHAR" property="courseId"/>-->
+<!--        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>-->
+<!--        <association property="course" column="course_id" javaType="com.example.domain.store.Course"-->
+<!--                     select="com.example.dao.store.CourseDao.findById" />-->
+<!--    </resultMap>-->
+
+    <!--配置查询的列名公共SQL语句-->
+    <sql id="Base_Column_List">
+        id, nick_name,password,gender,age,birthday,email,telephone,address,register_date,remark,state
+    </sql>
+
+    <!--配置查询所有-->
+    <select id="findAll" resultType="com.example.domain.front.Member">
+        select
+        <include refid="Base_Column_List"/>
+        from tr_member
+    </select>
+
+    <!--配置根据ID查询-->
+    <select id="findById" parameterType="java.lang.String"  resultType="com.example.domain.front.Member">
+        select
+        <include refid="Base_Column_List"/>
+        from tr_member
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <!--配置根据id删除-->
+    <delete id="delete" parameterType="java.lang.String">
+        delete from tr_member where id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+    <!--配置全字段插入，当某个字段没有值时，插入null-->
+    <insert id="save" parameterType="com.example.domain.front.Member">
+        insert into tr_member ( id, nick_name,password,gender,age,birthday,email,telephone,address,register_date,remark,state)
+        values (
+                #{id,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+        #{gender,jdbcType=VARCHAR} , #{age,jdbcType=VARCHAR},
+                #{birthday,jdbcType=TIMESTAMP},
+                #{email,jdbcType=VARCHAR},
+                #{telephone,jdbcType=VARCHAR},
+                #{address,jdbcType=VARCHAR},
+                #{registerDate,jdbcType=TIMESTAMP},
+                #{remark,jdbcType=VARCHAR},
+                #{state,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <!--配置全字段更新，当提供的数据为null时，数据库数据会被更新为null-->
+    <update id="update" parameterType="com.example.domain.front.Member">
+        update tr_member
+        set
+        email = #{email,jdbcType=VARCHAR},
+        telephone = #{telephone,jdbcType=VARCHAR},
+        address = #{address,jdbcType=VARCHAR},
+        remark = #{remark,jdbcType=VARCHAR},
+        state = #{state,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+</mapper>

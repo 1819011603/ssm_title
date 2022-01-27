@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+
+    <properties resource="jdbc.properties" />
+    <settings>
+        <setting name="mapUnderscoreToCamelCase" value="true" />
+    </settings>
+<!--    <settings>-->
+<!--&lt;!&ndash;        设置mybatis 日志&ndash;&gt;-->
+<!--        <setting name="logImpl" value="STDOUT_LOGGING"/>-->
+<!--    </settings>-->
+
+
+
+    <typeAliases>
+<!--        实体类domain的包名    -->
+        <package name="com.example.domain"/>
+    </typeAliases>
+
+    <plugins>
+        <!-- com.github.pagehelper.PageInterceptor -->
+        <plugin interceptor="com.github.pagehelper.PageInterceptor">
+            <property name="helperDialect" value="mysql" />
+            <property name="reasonable" value="true" />
+        </plugin>
+    </plugins>
+
+
+    <environments default="mysql">
+        <!--配置mysql的环境-->
+        <environment id="mysql">
+            <!--配置事务的类型-->
+            <transactionManager type="JDBC"/>
+            <!--配置数据源信息-->
+            <dataSource type="POOLED" >
+                <!--配置连接数据库的四个基本信息-->
+                <property name="driver" value="${jdbc.driver}"/>
+                <property name="url" value="${jdbc.url}" />
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <mappers>
+
+        <package name="com.example.dao"/>
+    </mappers>
+
+
+</configuration>

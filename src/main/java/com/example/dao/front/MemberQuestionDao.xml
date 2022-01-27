@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.dao.front.MemberQuestionDao">
+
+    <!--配置实体类属性和数据库表中列的对应关系-->
+<!--    <resultMap id="BaseResultMap" type="com.example.domain.front.MemberQuestion">-->
+<!--        <id column="id" jdbcType="VARCHAR" property="id"/>-->
+<!--        <result column="nick_name" jdbcType="VARCHAR" property="nickName"/>-->
+<!--        <result column="remark" jdbcType="VARCHAR" property="remark"/>-->
+<!--        <result column="state" jdbcType="VARCHAR" property="state"/>-->
+<!--        <result column="course_id" jdbcType="VARCHAR" property="courseId"/>-->
+<!--        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>-->
+<!--        <association property="course" column="course_id" javaType="com.example.domain.store.Course"-->
+<!--                     select="com.example.dao.store.CourseDao.findById" />-->
+<!--    </resultMap>-->
+
+    <!--配置查询的列名公共SQL语句-->
+    <sql id="Base_Column_List">
+        id,question_id,examinationpaper_id,answer_result,right_answer
+    </sql>
+
+    <!--配置查询所有-->
+    <select id="findAll" resultType="com.example.domain.front.MemberQuestion">
+        select
+        <include refid="Base_Column_List"/>
+        from tr_member_question
+    </select>
+
+    <!--配置根据ID查询-->
+    <select id="findById" parameterType="java.lang.String"  resultType="com.example.domain.front.MemberQuestion">
+        select
+        <include refid="Base_Column_List"/>
+        from tr_member_question
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <!--配置根据id删除-->
+    <delete id="delete" parameterType="java.lang.String">
+        delete from tr_member_question where id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+    <!--配置全字段插入，当某个字段没有值时，插入null-->
+    <insert id="save" parameterType="com.example.domain.front.MemberQuestion">
+        insert into tr_member_question ( id,question_id,examinationpaper_id,answer_result,right_answer)
+        values (
+                #{id,jdbcType=VARCHAR}, #{questionId,jdbcType=VARCHAR}, #{examinationpaperId,jdbcType=VARCHAR},
+        #{answerResult,jdbcType=VARCHAR} , #{rightAnswer,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <!--配置全字段更新，当提供的数据为null时，数据库数据会被更新为null-->
+    <update id="update" parameterType="com.example.domain.front.MemberQuestion">
+        update tr_member_question
+        set
+        examinationpaper_id = #{examinationpaperId,jdbcType=VARCHAR},
+        question_id = #{questionId,jdbcType=VARCHAR},
+        answer_result = #{answerResult,jdbcType=VARCHAR},
+        right_answer= #{rightAnswer,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+</mapper>
